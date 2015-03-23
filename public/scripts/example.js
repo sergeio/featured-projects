@@ -64,7 +64,8 @@ var Buttons = React.createClass({
         return (
             <div className="buttons">
                 <a href={prefix + this.props.projectName} />
-                <button onClick={this.props.buttonAction}>
+                <button onClick={this.props.buttonAction}
+                        title="Toggle long description">
                     {this.props.visible ? '⬆' : '⬇'}
                 </button>
             </div>
