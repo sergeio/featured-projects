@@ -22,12 +22,12 @@
     {
         "name": "text_comparer",
         "title": "Text Similarity",
-        "summary": "Use cosine similarity to find the similarity of two texts."
+        "summary": "Using cosine similarity for text comparison."
     },
     {
         "name": "text_clustering",
         "title": "Text Clustering",
-        "summary": "Cluster texts into similar groups using k-means clustering."
+        "summary": "Group texts by similarity using k-means clustering."
     },
     {
         "name": "shakespeare_text",

@@ -21,9 +21,11 @@ var ProjectGrid = React.createClass({
     render: function () {
         var projectBoxMaker = function (project) {
             return (
-                <ProjectBox name={project.name} title={project.title} key={project.name}>
-                    {project.summary}
-                </ProjectBox>
+                <div id={project.name}>
+                    <ProjectBox name={project.name} title={project.title} key={project.name}>
+                        {project.summary}
+                    </ProjectBox>
+                </div>
             )
         }
         return (
@@ -97,7 +99,6 @@ var ProjectBox = React.createClass({
         });
     },
     toggleReadme: function (e) {
-        e.preventDefault();
         if (! this.state.readme ) {
             this.fetchReadme();
         } else {
@@ -106,9 +107,11 @@ var ProjectBox = React.createClass({
                 visible: !this.state.visible
             });
         }
+        element = $('#' + this.props.name);
+        $('html, body').animate({ scrollTop: element.offset().top }, 500);
     },
     render: function () {
-        var rawMarkup = (this.state.visible && this.state.readme) || '';
+        var rawMarkup = this.state.visible ? this.state.readme : '';
         return (
             <div className="projectBox">
                 <h2> {this.props.title} </h2>
@@ -117,9 +120,8 @@ var ProjectBox = React.createClass({
                 <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
                 <div className="bottomButton">
                     <button
-                        style={
-                            (this.state.visible && {display: 'block'}) ||
-                                                   {display: 'none'}}
+                        style={this.state.visible ?
+                            {display: 'block'} : {display: 'none'}}
                         onClick={this.toggleReadme}>
                         ⬆
                     </button>

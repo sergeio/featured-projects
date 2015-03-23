@@ -5,7 +5,7 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 50px;
-  max-width: 50em;
+  max-width: 45em;
   color: #222;
 }
 
@@ -127,7 +127,7 @@ button:hover {
 
 .projectBox {
   position: relative;
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
   padding: 10px;
   margin-bottom: 20px;
   background: #FFF;
