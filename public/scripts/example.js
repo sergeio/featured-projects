@@ -97,30 +97,29 @@ var ProjectBox = React.createClass({
             }.bind(this),
         });
     },
-    toggleReadme: function (e) {
-        elmnt = $('#' + this.props.name);
-        var yFromElmBottom =
-            elmnt.offset().top + elmnt.height() - document.body.scrollTop;
-        if (! this.state.readme ) {
-            this.fetchReadme();
-        } else {
-            this.setState({
-                readme: this.state.readme,
-                visible: !this.state.visible,
-                scroll: yFromElmBottom
-            });
-        }
-        elmnt = $('#' + this.props.name);
-        // Toggle highlighting to help keep your place after scrolling
-        elmnt.toggleClass('highlighted');
-        setTimeout(
-            function () { elmnt.toggleClass('highlighted'); },
-            500);
+    toggleReadmeFactory: function (setScroll) {
+        return function () {
+            elmnt = $('#' + this.props.name);
+            var yFromElmBottom =
+                elmnt.offset().top + elmnt.height() - document.body.scrollTop;
+            if (! this.state.readme ) {
+                this.fetchReadme();
+            } else {
+                this.setState({
+                    readme: this.state.readme,
+                    visible: !this.state.visible,
+                    scroll: setScroll? yFromElmBottom : null
+                });
+            }
+            elmnt = $('#' + this.props.name);
+            // Toggle highlighting to help keep your place after scrolling
+            elmnt.toggleClass('highlighted');
+            setTimeout(function () {elmnt.toggleClass('highlighted')}, 500);
+        }.bind(this)
     },
     componentDidUpdate: function () {
         if ( this.state.scroll && !this.state.visible ) {
             elmnt = $('#' + this.props.name);
-            console.log(this.state);
             positionToScroll = elmnt.offset().top + elmnt.height() - this.state.scroll;
             $('body').scrollTop(positionToScroll);
         }
@@ -130,14 +129,17 @@ var ProjectBox = React.createClass({
         return (
             <div className="projectBox" id={this.props.name}>
                 <h2> {this.props.title} </h2>
-                <Buttons projectName={this.props.name} buttonAction={this.toggleReadme} visible={this.state.visible} />
+                <Buttons
+                    projectName={this.props.name}
+                    buttonAction={this.toggleReadmeFactory(false)}
+                    visible={this.state.visible} />
                 {this.state.visible ? '' : this.props.children}
                 <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
                 <div className="bottomButton">
                     <button
                         style={this.state.visible ?
                             {display: 'block'} : {display: 'none'}}
-                        onClick={this.toggleReadme}>
+                        onClick={this.toggleReadmeFactory(true)}>
                         ⬆
                     </button>
                 </div>
