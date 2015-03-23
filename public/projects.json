@@ -1,0 +1,37 @@
+[
+    {
+        "name": "docker_multiflask_server",
+        "title": "Dockerized Multi-Flask Server With Nginx",
+        "summary": "Docker + docker compose + nginx + 2 * (gunicorn + flask)"
+    },
+    {
+        "name": "koch_snowflake",
+        "title": "Koch Snowflake",
+        "summary": "Examine the relationship between a fractal's volume and perimeter."
+    },
+    {
+        "name": "hyperloglog",
+        "title": "HyperLogLog",
+        "summary": "Cardinality estimation for enormous datasets."
+    },
+    {
+        "name": "distance-art",
+        "title": "Distance Art",
+        "summary": "Voronoi Diagrams in Clojure."
+    },
+    {
+        "name": "text_comparer",
+        "title": "Text Similarity",
+        "summary": "Use cosine similarity to find the similarity of two texts."
+    },
+    {
+        "name": "text_clustering",
+        "title": "Text Clustering",
+        "summary": "Cluster texts into similar groups using k-means clustering."
+    },
+    {
+        "name": "shakespeare_text",
+        "title": "Shakespeare Text",
+        "summary": "Generate random Shakesperian-sounding text using markov chains."
+    }
+]

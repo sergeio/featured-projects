@@ -5,6 +5,8 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 30px;
+  max-width: 50em;
+  color: #222;
 }
 
 a {
@@ -14,6 +16,17 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-family: "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
+  font-size: 12px;
+  margin: 0 2px;
+  padding: 0px 5px;
+  overflow: auto;
 }
 
 code {
@@ -26,6 +39,12 @@ code {
   padding: 0px 5px;
 }
 
+pre code {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
 h1, h2, h3, h4 {
   font-weight: bold;
   margin: 0 0 15px;
@@ -34,7 +53,7 @@ h1, h2, h3, h4 {
 
 h1 {
   border-bottom: 1px solid #ddd;
-  font-size: 2.5em;
+  font-size: 2.1em;
   font-weight: bold;
   margin: 0 0 15px;
   padding: 0;
@@ -42,7 +61,7 @@ h1 {
 
 h2 {
   border-bottom: 1px solid #eee;
-  font-size: 2em;
+  font-size: 1.8em;
 }
 
 h3 {
@@ -59,4 +78,56 @@ p, ul {
 
 ul {
   padding-left: 30px;
+}
+
+button {
+  float: right;
+  font-size: 10px;
+}
+
+.buttons a {
+  height: 16px;
+  width: 16px;
+  background:transparent url('../public/octocat.png') center top no-repeat;
+  background-size: cover;
+  display: block;
+  float:left;
+  margin-right: 5px;
+}
+
+.buttons a:hover {
+  height: 16px;
+  width: 16px;
+  background:transparent url('../public/octocat-hover.png') center top no-repeat;
+  background-size: cover;
+  display: block;
+  float:left;
+}
+
+.buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
+    max-height: 16px;
+    margin: 5px;
+}
+
+button:hover {
+  color: #117296;
+}
+
+.projectBox .bottomButton {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  font-size: 10px;
+  margin: 5px;
+}
+
+.projectBox {
+  position: relative;
+  border: 1px solid #CCC;
+  padding: 5px;
+  margin-bottom: 20px;
 }

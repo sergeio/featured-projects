@@ -1,16 +1,27 @@
-var projects = [
-    {name: 'docker_multiflask_server', summary: 'Docker + docker compose + nginx + 2 * (gunicorn + flask)'},
-    {name: 'koch_snowflake', summary: 'Examine the relationship between a fractal\'s volume and perimeter.'}
-];
 
 // https://facebook.github.io/react/docs/displaying-data.html
 
 
 var ProjectGrid = React.createClass({
+    getInitialState: function () {
+        return {data: []};
+    },
+    fetchProjects: function () {
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            success: function (data) {
+                this.setState({data: data});
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this),
+        });
+    },
     render: function () {
         var projectBoxMaker = function (project) {
             return (
-                <ProjectBox name={project.name} key={project.name}>
+                <ProjectBox name={project.name} title={project.title} key={project.name}>
                     {project.summary}
                 </ProjectBox>
             )
@@ -18,7 +29,43 @@ var ProjectGrid = React.createClass({
         return (
             <div className="projectGrid">
                 <h1> Featured Projects </h1>
-                {this.props.projects.map(projectBoxMaker)}
+                {this.state.data.map(projectBoxMaker)}
+            </div>
+        )
+    },
+    componentDidMount: function () {
+        this.fetchProjects();
+    },
+});
+
+var RemoveH1Title = function (htmlString) {
+    // We don't want two H1 Titles
+    var expr = '<h1[^\<]*</h1>';
+    var re = new RegExp(expr, 'g');
+    htmlString = htmlString.replace(re, '');
+    return htmlString
+}
+
+var handleRelativeImages = function (htmlString, projectName) {
+    // Replaces all images in htmlString assuming they have paths relative to a
+    // github project.
+    var prefix = '<img src="https://raw.githubusercontent.com/sergeio/';
+    var expr = '<img src="([^"]*)"';
+    var re = new RegExp(expr, 'g');
+    var replaceWith = prefix + projectName + '/master/$1"';
+    htmlString = htmlString.replace(re, replaceWith);
+    return htmlString
+}
+
+var Buttons = React.createClass({
+    render: function () {
+        var prefix = 'http://github.com/sergeio/'
+        return (
+            <div className="buttons">
+                <a href={prefix + this.props.projectName} />
+                <button onClick={this.props.buttonAction}>
+                    {this.props.visible ? '⬆' : '⬇'}
+                </button>
             </div>
         )
     }
@@ -31,18 +78,19 @@ var ProjectBox = React.createClass({
     },
     fetchReadme: function () {
         var projectName = this.props.name;
-        var url = 'https://api.github.com/repos/sergeio/' + projectName + '/contents/readme.md?ref=master';
+        var url = 'https://api.github.com/repos/sergeio/' + projectName + '/contents/README.md?ref=master';
         $.ajax({
             url: url,
             dataType: 'json',
             success: function (data) {
-                var text = window.atob(data.content)
-                var readme_html = converter.makeHtml(text)
+                var text = window.atob(data.content);
+                var readmeHtml = converter.makeHtml(text);
+                var readmeHtml = handleRelativeImages(readmeHtml, projectName);
+                var readmeHtml = RemoveH1Title(readmeHtml);
                 this.setState({
-                    readme: readme_html,
+                    readme: readmeHtml,
                     visible: true
                 });
-                // this.refs.children.getDOMNode().value = text;
             }.bind(this),
             error: function (xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -65,12 +113,20 @@ var ProjectBox = React.createClass({
         return (
             <div className="projectBox">
                 <h2>
-                    <a href="#" onClick={this.toggleReadme}>
-                        {this.props.name}
-                    </a>
+                    {this.props.title}
                 </h2>
+                <Buttons projectName={this.props.name} buttonAction={this.toggleReadme} visible={this.state.visible} />
                 <p> {!this.state.visible && this.props.children} </p>
                 <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+                <div className="bottomButton">
+                    <button
+                        style={
+                            (this.state.visible && {display: 'block'}) ||
+                                                   {display: 'none'}}
+                        onClick={this.toggleReadme}>
+                        ⬆
+                    </button>
+                </div>
             </div>
         )
     }
@@ -78,6 +134,10 @@ var ProjectBox = React.createClass({
 
 
 React.render(
-    <ProjectGrid projects={projects} />,
+    <ProjectGrid url="public/projects.json" />,
     document.getElementById('content')
 );
+
+// http://facebook.github.io/react/tips/communicate-between-components.html
+// http://facebook.github.io/react/tips/expose-component-functions.html
+// https://github.com/jlongster/transducers.js
