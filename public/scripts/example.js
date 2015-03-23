@@ -21,8 +21,11 @@ var ProjectGrid = React.createClass({
     render: function () {
         var projectBoxMaker = function (project) {
             return (
-                <ProjectBox name={project.name} title={project.title} key={project.name}>
-                    {project.summary}
+                <ProjectBox
+                    name={project.name}
+                    title={project.title}
+                    key={project.name}>
+                        {project.summary}
                 </ProjectBox>
             )
         }
@@ -65,13 +68,15 @@ var Buttons = React.createClass({
         }
         var shouldScroll = this.props.orientation == 'bottom';
         return (
-            <div className={'buttons buttons-' + this.props.orientation} style={style}>
-                <a href={prefix + this.props.projectName} />
-                <button
-                    onClick={this.props.actionFactory(shouldScroll)}
-                    title="Toggle long description">
-                        {this.props.visible ? '⬆' : '⬇'}
-                </button>
+            <div
+                className={'buttons buttons-' + this.props.orientation}
+                style={style}>
+                    <a href={prefix + this.props.projectName} />
+                    <button
+                        onClick={this.props.actionFactory(shouldScroll)}
+                        title="Toggle long description">
+                            {this.props.visible ? '⬆' : '⬇'}
+                    </button>
             </div>
         )
     }
@@ -84,7 +89,8 @@ var ProjectBox = React.createClass({
     },
     fetchReadme: function () {
         var projectName = this.props.name;
-        var url = 'https://api.github.com/repos/sergeio/' + projectName + '/contents/README.md?ref=master';
+        var url = 'https://api.github.com/repos/sergeio/' +
+                  projectName + '/contents/README.md?ref=master';
         $.ajax({
             url: url,
             dataType: 'json',
@@ -106,7 +112,7 @@ var ProjectBox = React.createClass({
     toggleReadmeFactory: function (setScroll) {
         return function () {
             elmnt = $('#' + this.props.name);
-            var yFromElmBottom =
+            var visiblePortionHeight =
                 elmnt.offset().top + elmnt.height() - document.body.scrollTop;
             if (! this.state.readme ) {
                 this.fetchReadme();
@@ -114,7 +120,7 @@ var ProjectBox = React.createClass({
                 this.setState({
                     readme: this.state.readme,
                     visible: !this.state.visible,
-                    scroll: setScroll? yFromElmBottom : null
+                    scroll: setScroll? visiblePortionHeight : null
                 });
             }
             elmnt = $('#' + this.props.name);
@@ -126,8 +132,8 @@ var ProjectBox = React.createClass({
     componentDidUpdate: function () {
         if ( this.state.scroll && !this.state.visible ) {
             elmnt = $('#' + this.props.name);
-            positionToScroll = elmnt.offset().top + elmnt.height() - this.state.scroll;
-            $('body').scrollTop(positionToScroll);
+            yScroll = elmnt.offset().top + elmnt.height() - this.state.scroll;
+            $('body').scrollTop(yScroll);
         }
     },
     render: function () {
