@@ -59,12 +59,18 @@ var handleRelativeImages = function (htmlString, projectName) {
 var Buttons = React.createClass({
     render: function () {
         var prefix = 'http://github.com/sergeio/'
+        var style = {display: 'inline'};
+        if (this.props.orientation == 'bottom' && !this.props.visible) {
+            style = {display: 'none'};
+        }
+        var shouldScroll = this.props.orientation == 'bottom';
         return (
-            <div className="buttons">
+            <div className={'buttons buttons-' + this.props.orientation} style={style}>
                 <a href={prefix + this.props.projectName} />
-                <button onClick={this.props.buttonAction}
-                        title="Toggle long description">
-                    {this.props.visible ? '⬆' : '⬇'}
+                <button
+                    onClick={this.props.actionFactory(shouldScroll)}
+                    title="Toggle long description">
+                        {this.props.visible ? '⬆' : '⬇'}
                 </button>
             </div>
         )
@@ -131,18 +137,16 @@ var ProjectBox = React.createClass({
                 <h2> {this.props.title} </h2>
                 <Buttons
                     projectName={this.props.name}
-                    buttonAction={this.toggleReadmeFactory(false)}
+                    actionFactory={this.toggleReadmeFactory}
+                    orientation={'top'}
                     visible={this.state.visible} />
                 {this.state.visible ? '' : this.props.children}
                 <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
-                <div className="bottomButton">
-                    <button
-                        style={this.state.visible ?
-                            {display: 'block'} : {display: 'none'}}
-                        onClick={this.toggleReadmeFactory(true)}>
-                        ⬆
-                    </button>
-                </div>
+                <Buttons
+                    projectName={this.props.name}
+                    actionFactory={this.toggleReadmeFactory}
+                    orientation={'bottom'}
+                    visible={this.state.visible} />
             </div>
         )
     }

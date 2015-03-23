@@ -105,12 +105,19 @@ button {
 }
 
 .buttons {
-    position: absolute;
-    top: 0;
-    right: 0;
-    float: right;
-    max-height: 16px;
-    margin: 10px;
+  position: absolute;
+  right: 0;
+  float: right;
+  max-height: 16px;
+  margin: 10px;
+}
+
+.buttons-top {
+  top: 0;
+}
+
+.buttons-bottom {
+  bottom: 0;
 }
 
 button:hover {
