@@ -131,7 +131,12 @@ button:hover {
   padding: 10px;
   margin-bottom: 20px;
   background: #FFF;
-  /* -moz-box-shadow:    2px 2px 30px 0px #ccc; */
-  /* -webkit-box-shadow: 2px 2px 30px 0px #ccc; */
-  /* box-shadow:         2px 2px 30px 0px #ccc; */
+  -webkit-transition:background .7s;
+  -moz-transition:background .7s;
+  -o-transition:background .7s;
+  transition:background .7s
+}
+
+.highlighted {
+  background: #C9FF67;
 }

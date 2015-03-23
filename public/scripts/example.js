@@ -21,11 +21,9 @@ var ProjectGrid = React.createClass({
     render: function () {
         var projectBoxMaker = function (project) {
             return (
-                <div id={project.name}>
-                    <ProjectBox name={project.name} title={project.title} key={project.name}>
-                        {project.summary}
-                    </ProjectBox>
-                </div>
+                <ProjectBox name={project.name} title={project.title} key={project.name}>
+                    {project.summary}
+                </ProjectBox>
             )
         }
         return (
@@ -100,21 +98,37 @@ var ProjectBox = React.createClass({
         });
     },
     toggleReadme: function (e) {
+        elmnt = $('#' + this.props.name);
+        var yFromElmBottom =
+            elmnt.offset().top + elmnt.height() - document.body.scrollTop;
         if (! this.state.readme ) {
             this.fetchReadme();
         } else {
             this.setState({
-                readme:this.state.readme,
-                visible: !this.state.visible
+                readme: this.state.readme,
+                visible: !this.state.visible,
+                scroll: yFromElmBottom
             });
         }
-        element = $('#' + this.props.name);
-        $('html, body').animate({ scrollTop: element.offset().top }, 500);
+        elmnt = $('#' + this.props.name);
+        // Toggle highlighting to help keep your place after scrolling
+        elmnt.toggleClass('highlighted');
+        setTimeout(
+            function () { elmnt.toggleClass('highlighted'); },
+            500);
+    },
+    componentDidUpdate: function () {
+        if ( this.state.scroll && !this.state.visible ) {
+            elmnt = $('#' + this.props.name);
+            console.log(this.state);
+            positionToScroll = elmnt.offset().top + elmnt.height() - this.state.scroll;
+            $('body').scrollTop(positionToScroll);
+        }
     },
     render: function () {
         var rawMarkup = this.state.visible ? this.state.readme : '';
         return (
-            <div className="projectBox">
+            <div className="projectBox" id={this.props.name}>
                 <h2> {this.props.title} </h2>
                 <Buttons projectName={this.props.name} buttonAction={this.toggleReadme} visible={this.state.visible} />
                 {this.state.visible ? '' : this.props.children}
