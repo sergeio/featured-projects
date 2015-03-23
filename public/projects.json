@@ -32,6 +32,6 @@
     {
         "name": "shakespeare_text",
         "title": "Shakespeare Text",
-        "summary": "Generate random Shakesperian-sounding text using markov chains."
+        "summary": "Generate random Shakesperian-sounding text using Markov chains."
     }
 ]

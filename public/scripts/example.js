@@ -28,7 +28,6 @@ var ProjectGrid = React.createClass({
         }
         return (
             <div className="projectGrid">
-                <h1> Featured Projects </h1>
                 {this.state.data.map(projectBoxMaker)}
             </div>
         )
@@ -112,11 +111,9 @@ var ProjectBox = React.createClass({
         var rawMarkup = (this.state.visible && this.state.readme) || '';
         return (
             <div className="projectBox">
-                <h2>
-                    {this.props.title}
-                </h2>
+                <h2> {this.props.title} </h2>
                 <Buttons projectName={this.props.name} buttonAction={this.toggleReadme} visible={this.state.visible} />
-                <p> {!this.state.visible && this.props.children} </p>
+                {this.state.visible ? '' : this.props.children}
                 <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
                 <div className="bottomButton">
                     <button
