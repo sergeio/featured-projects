@@ -90,7 +90,7 @@ var ProjectBox = React.createClass({
     fetchReadme: function () {
         var projectName = this.props.name;
         var url = 'https://api.github.com/repos/sergeio/' +
-                  projectName + '/contents/README.md?ref=master';
+            projectName + '/contents/README.md?ref=master';
         $.ajax({
             url: url,
             dataType: 'json',
@@ -105,7 +105,7 @@ var ProjectBox = React.createClass({
                 });
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(url, status, err.toString());
             }.bind(this),
         });
     },
@@ -113,7 +113,7 @@ var ProjectBox = React.createClass({
         return function () {
             elmnt = $('#' + this.props.name);
             var visiblePortionHeight =
-                elmnt.offset().top + elmnt.height() - document.body.scrollTop;
+                elmnt.offset().top + elmnt.height() - window.scrollY;
             if (! this.state.readme ) {
                 this.fetchReadme();
             } else {
@@ -133,7 +133,7 @@ var ProjectBox = React.createClass({
         if ( this.state.scroll && !this.state.visible ) {
             elmnt = $('#' + this.props.name);
             yScroll = elmnt.offset().top + elmnt.height() - this.state.scroll;
-            $('body').scrollTop(yScroll);
+            window.scrollTo(0, yScroll);
         }
     },
     render: function () {
