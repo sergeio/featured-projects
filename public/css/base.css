@@ -138,10 +138,7 @@ button:hover {
 
 .projectBox {
   position: relative;
-  border: 1px solid #eee;
-  padding: .6em;
   margin-bottom: 1.5em;
-  background: #FFF;
   -webkit-transition:background .7s;
   -moz-transition:background .7s;
   -o-transition:background .7s;
@@ -153,10 +150,13 @@ button:hover {
 }
 
 .sideBar {
-  background: #FFF;
-  display: block;
   float: right;
   width: 20em;
+}
+
+.contentBox {
+  background: #FFF;
+  display: block;
   padding: .6em;
   border: 1px solid #eee;
 }

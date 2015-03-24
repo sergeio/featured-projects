@@ -75,7 +75,7 @@ var SideBar = React.createClass({
     },
     render: function () {
         return (
-            <div className='sideBar'>
+            <div className='sideBar contentBox'>
                 <span dangerouslySetInnerHTML={{__html: this.state.rawHtml}} />
             </div>
         )
@@ -180,7 +180,7 @@ var ProjectBox = React.createClass({
     render: function () {
         var rawHtml = this.state.visible ? this.state.readme : '';
         return (
-            <div className="projectBox" id={this.props.name}>
+            <div className="projectBox contentBox" id={this.props.name}>
                 <h2> {this.props.title} </h2>
                 <Buttons
                     projectName={this.props.name}
