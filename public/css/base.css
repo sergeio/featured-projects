@@ -5,7 +5,6 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 50px;
-  max-width: 45em;
   color: #222;
 }
 
@@ -82,7 +81,7 @@ ul {
 
 button {
   float: right;
-  font-size: 10px;
+  font-size: .6em;
 }
 
 .buttons a {
@@ -92,7 +91,7 @@ button {
   background-size: cover;
   display: block;
   float:left;
-  margin-right: 10px;
+  margin-right: .6em;
 }
 
 .buttons a:hover {
@@ -109,7 +108,7 @@ button {
   right: 0;
   float: right;
   max-height: 16px;
-  margin: 10px;
+  margin: .6em;
 }
 
 .buttons-top {
@@ -124,24 +123,42 @@ button:hover {
   color: #117296;
 }
 
+.projectGrid {
+  width: 45em;
+  float: left;
+}
+
 .projectBox .bottomButton {
   position: absolute;
   bottom: 0px;
   right: 0px;
-  font-size: 10px;
-  margin: 10px;
+  font-size: .6em;
+  margin: .6em;
 }
 
 .projectBox {
   position: relative;
   border: 1px solid #eee;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: .6em;
+  margin-bottom: 1.5em;
   background: #FFF;
   -webkit-transition:background .7s;
   -moz-transition:background .7s;
   -o-transition:background .7s;
   transition:background .7s
+}
+
+.page {
+  max-width: 67.9em;
+}
+
+.sideBar {
+  background: #FFF;
+  display: block;
+  float: right;
+  width: 20em;
+  padding: .6em;
+  border: 1px solid #eee;
 }
 
 .highlighted {

@@ -1,6 +1,17 @@
 
 // https://facebook.github.io/react/docs/displaying-data.html
+var converter = new Showdown.converter();
 
+var Page = React.createClass({
+    render: function () {
+        return (
+            <div className='page'>
+                <ProjectGrid dataUrl={this.props.projectDataUrl} />
+                <SideBar dataUrl={this.props.sidebarDataUrl} />
+            </div>
+        )
+    }
+});
 
 var ProjectGrid = React.createClass({
     getInitialState: function () {
@@ -8,13 +19,13 @@ var ProjectGrid = React.createClass({
     },
     fetchProjects: function () {
         $.ajax({
-            url: this.props.url,
+            url: this.props.dataUrl,
             dataType: 'json',
             success: function (data) {
                 this.setState({data: data});
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(this.props.dataUrl, status, err.toString());
             }.bind(this),
         });
     },
@@ -38,6 +49,37 @@ var ProjectGrid = React.createClass({
     componentDidMount: function () {
         this.fetchProjects();
     },
+});
+
+var SideBar = React.createClass({
+    getInitialState: function () {
+        return {markdown: '', rawHtml: ''};
+    },
+    fetchSidebarText: function () {
+        $.ajax({
+            url: this.props.dataUrl,
+            dataType: 'text',
+            success: function (data) {
+                this.setState({
+                    markdown: data,
+                    rawHtml: converter.makeHtml(data)
+                });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.props.dataUrl, status, err.toString());
+            }.bind(this),
+        });
+    },
+    componentDidMount: function () {
+        this.fetchSidebarText();
+    },
+    render: function () {
+        return (
+            <div className='sideBar'>
+                <span dangerouslySetInnerHTML={{__html: this.state.rawHtml}} />
+            </div>
+        )
+    }
 });
 
 var RemoveH1Title = function (htmlString) {
@@ -82,7 +124,6 @@ var Buttons = React.createClass({
     }
 });
 
-var converter = new Showdown.converter();
 var ProjectBox = React.createClass({
     getInitialState: function () {
         return {readme: '', visible: false};
@@ -137,7 +178,7 @@ var ProjectBox = React.createClass({
         }
     },
     render: function () {
-        var rawMarkup = this.state.visible ? this.state.readme : '';
+        var rawHtml = this.state.visible ? this.state.readme : '';
         return (
             <div className="projectBox" id={this.props.name}>
                 <h2> {this.props.title} </h2>
@@ -147,7 +188,7 @@ var ProjectBox = React.createClass({
                     orientation={'top'}
                     visible={this.state.visible} />
                 {this.state.visible ? '' : this.props.children}
-                <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+                <span dangerouslySetInnerHTML={{__html: rawHtml}} />
                 <Buttons
                     projectName={this.props.name}
                     actionFactory={this.toggleReadmeFactory}
@@ -160,7 +201,9 @@ var ProjectBox = React.createClass({
 
 
 React.render(
-    <ProjectGrid url="public/projects.json" />,
+    <Page
+        projectDataUrl="public/projects.json"
+        sidebarDataUrl="public/sidebar.md" />,
     document.getElementById('content')
 );
 
