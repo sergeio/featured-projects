@@ -5,14 +5,19 @@
         "summary": "Docker + docker compose + nginx + 2 * (gunicorn + flask)"
     },
     {
-        "name": "koch_snowflake",
-        "title": "Koch Snowflake",
-        "summary": "Examine the relationship between a fractal's volume and perimeter."
+        "name": "watchfiles",
+        "title": "Watchfiles",
+        "summary": "Execute command every time a file is touched."
     },
     {
         "name": "hyperloglog",
         "title": "HyperLogLog",
         "summary": "Cardinality estimation for enormous datasets."
+    },
+    {
+        "name": "koch_snowflake",
+        "title": "Koch Snowflake",
+        "summary": "Examine the relationship between a fractal's volume and perimeter."
     },
     {
         "name": "distance-art",
